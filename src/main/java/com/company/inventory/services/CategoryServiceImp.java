@@ -99,6 +99,18 @@ public class CategoryServiceImp implements ICategoryService {
 			
 			if(categorySearch.isPresent()) {
 				// se procedera a actualizar el registro
+				categorySearch.get().setName(category.getName());
+				categorySearch.get().setDescription(category.getDescription());
+				
+				Category categoryToUpdate = categoryDao.save(categorySearch.get());
+				if(categoryToUpdate != null) {
+					list.add(categoryToUpdate);
+					response.getCategoryResponse().setCategory(list);
+					response.setMetadata("Respuesta OK", "00", "Categoria actualizada");
+				} else {
+					response.setMetadata("Respuesta NOK", "01", "Categoria no actualizada");
+					return new ResponseEntity<CategoryResponseRest>(response, HttpStatus.BAD_REQUEST);
+				}
 				
 			} else {
 				response.setMetadata("Respuesta NOK", "-1", "Categoria no encontrada");
