@@ -68,6 +68,7 @@ public class CategoryServiceImp implements ICategoryService {
 	@Override
 	@Transactional
 	public ResponseEntity<CategoryResponseRest> save(Category category) {
+		
 		CategoryResponseRest response = new CategoryResponseRest();
 		List<Category> list = new ArrayList<>();
 		
@@ -91,6 +92,7 @@ public class CategoryServiceImp implements ICategoryService {
 	@Override
 	@Transactional
 	public ResponseEntity<CategoryResponseRest> update(Category category, long id) {
+		
 		CategoryResponseRest response = new CategoryResponseRest();
 		List<Category> list = new ArrayList<>();
 		
@@ -98,7 +100,6 @@ public class CategoryServiceImp implements ICategoryService {
 			Optional <Category> categorySearch = categoryDao.findById(id);
 			
 			if(categorySearch.isPresent()) {
-				// se procedera a actualizar el registro
 				categorySearch.get().setName(category.getName());
 				categorySearch.get().setDescription(category.getDescription());
 				
@@ -121,6 +122,24 @@ public class CategoryServiceImp implements ICategoryService {
 		} catch (Exception e) {
 			response.setMetadata("Respuesta NOK", "-1", "Error al actualizar categoria");
 			return new ResponseEntity<CategoryResponseRest>(response, HttpStatus.BAD_REQUEST);
+		}
+		
+		return new ResponseEntity<CategoryResponseRest>(response, HttpStatus.OK);
+	}
+
+	@Override
+	@Transactional
+	public ResponseEntity<CategoryResponseRest> deleteById(Long id) {
+
+		CategoryResponseRest response = new CategoryResponseRest();
+		
+		try {
+			categoryDao.deleteById(id);
+			response.setMetadata("respuesta OK", "00", "Registro eliminado");
+
+		} catch (Exception e) {
+			response.setMetadata("Respuesta NOK", "-1", "Error al aliminar");
+			return new ResponseEntity<CategoryResponseRest>(response, HttpStatus.INTERNAL_SERVER_ERROR);
 		}
 		
 		return new ResponseEntity<CategoryResponseRest>(response, HttpStatus.OK);
