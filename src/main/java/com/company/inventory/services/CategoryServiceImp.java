@@ -28,6 +28,7 @@ public class CategoryServiceImp implements ICategoryService {
 		
 		try {
 			List<Category> category = (List<Category>) categoryDao.findAll();
+			
 			response.getCategoryResponse().setCategory(category);
 			response.setMetadata("Respuesta OK", "00", "Respuesta exitosa");
 		} catch (Exception e) {
@@ -50,6 +51,7 @@ public class CategoryServiceImp implements ICategoryService {
 			
 			if(category.isPresent()) {
 				list.add(category.get());
+				
 				response.getCategoryResponse().setCategory(list);
 				response.setMetadata("Respuesta OK", "00", "Categoria encontrada");
 			} else {
@@ -77,6 +79,7 @@ public class CategoryServiceImp implements ICategoryService {
 			
 			if (categorySaved != null) {
 				list.add(categorySaved);
+				
 				response.getCategoryResponse().setCategory(list);
 				response.setMetadata("Respuesta OK", "00", "Categoria guardada");
 			}
@@ -106,6 +109,7 @@ public class CategoryServiceImp implements ICategoryService {
 				Category categoryToUpdate = categoryDao.save(categorySearch.get());
 				if(categoryToUpdate != null) {
 					list.add(categoryToUpdate);
+					
 					response.getCategoryResponse().setCategory(list);
 					response.setMetadata("Respuesta OK", "00", "Categoria actualizada");
 				} else {
